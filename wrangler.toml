@@ -12,7 +12,7 @@ TIMEZONE = "UTC"
 [[d1_databases]]
 binding = "DB"
 database_name = "bodyshapecoach-db"
-database_id = "YOUR_DATABASE_ID_HERE"
+database_id = "7fb98e41-ccf9-4399-b7ab-11d508bdfb8d"
 
 [[kv_namespaces]]
 binding = "KV_CACHE"
