@@ -1,0 +1,76 @@
+{
+    "welcome": "👋 Welcome to *BodyShapeCoach*!\n\nI'm your personal AI nutritionist and fitness coach. I'll help you achieve your health and fitness goals through personalized meal plans, calorie tracking, and expert guidance.\n\nLet's get started by creating your profile!",
+    
+    "profile": {
+        "welcome": "📋 *Let's create your personalized profile!*\nThis will help me create the perfect plan for you.\n\nPlease answer the following questions:",
+        "personal": {
+            "age": "How old are you?",
+            "gender": "What is your gender?",
+            "height": "What is your height in cm?",
+            "weight": "What is your current weight in kg?",
+            "goal_weight": "What is your goal weight in kg? (Optional)"
+        },
+        "fitness": {
+            "goal": "What is your fitness goal?\n\n• Lose weight (fat loss)\n• Gain weight\n• Build muscle\n• Recomposition (lose fat + gain muscle)\n• Maintain weight",
+            "activity": "What is your activity level?\n\n• Sedentary (office job, little exercise)\n• Lightly active (light exercise 1-3 days/week)\n• Moderately active (moderate exercise 3-5 days/week)\n• Very active (hard exercise 6-7 days/week)\n• Athlete (twice per day, extra heavy workouts)"
+        },
+        "health": {
+            "conditions": "Do you have any health conditions? (Diabetes, thyroid issues, blood pressure, injuries, etc.)",
+            "allergies": "Do you have any food allergies or intolerances?",
+            "medications": "Are you taking any medications that affect weight or appetite?"
+        },
+        "diet": {
+            "type": "What diet style do you prefer?\n\n• Standard balanced\n• High-protein\n• Mediterranean\n• Low-carb / Keto\n• Vegetarian\n• Vegan\n• Halal-only food",
+            "preferences": "What foods do you love or hate? (List your favorite and disliked foods)",
+            "meals": "How many meals per day do you prefer? (1, 2, 3, 4, or 5+)"
+        },
+        "lifestyle": {
+            "schedule": "Do you work day shifts, night shifts, or rotating shifts?",
+            "location": "Please share your location or country (this helps me include traditional foods)",
+            "training_location": "Do you train at gym, home, or not training?",
+            "training_days": "How many days per week can you train?",
+            "experience": "What is your training experience level?\n\n• Beginner\n• Intermediate\n• Advanced"
+        },
+        "complete": "✅ *Profile Complete!*\n\nI've saved all your information and calculated your daily nutritional needs.\n\n📊 *Your Daily Targets:*\n• Calories: {{calories}}\n• Protein: {{protein}}g\n• Carbs: {{carbs}}g\n• Fat: {{fat}}g\n\nWould you like me to generate your first meal plan?"
+    },
+    
+    "menu": {
+        "main": "🏋️ *BodyShapeCoach Menu*\n\nWhat would you like to do?",
+        "profile": "👤 View/Update Profile",
+        "plan": "📅 Generate Today's Plan",
+        "log": "📝 Log Food/Exercise",
+        "progress": "📊 View Progress",
+        "subscribe": "💳 Subscription",
+        "help": "❓ Help"
+    },
+    
+    "subscription": {
+        "expired": "⚠️ *Subscription Required*\n\nYour subscription has expired. To continue using BodyShapeCoach features, please renew your subscription.",
+        "active": "✅ *Active Subscription*\n\nPlan: {{plan}}\nValid until: {{date}}\n\nThank you for being a valued member!",
+        "plans": "💳 *Choose a Subscription Plan*\n\n",
+        "key_prompt": "Please enter your subscription key:",
+        "success": "🎉 *Subscription Activated!*\n\nYour {{plan}} subscription is now active until {{date}}.",
+        "invalid_key": "❌ Invalid subscription key. Please check and try again."
+    },
+    
+    "plan": {
+        "generated": "🍽️ *Your Personalized Meal Plan*\n\n",
+        "today": "📅 *Today's Plan*\n\n",
+        "shopping": "🛒 *Shopping List*\n\n"
+    },
+    
+    "food": {
+        "analysis": {
+            "prompt": "📸 Please send a photo of your food for analysis.",
+            "processing": "🔍 Analyzing your food image...",
+            "result": "📊 *Food Analysis Results*\n\n🍽️ *Food Items:*\n{{items}}\n\n📈 *Nutritional Summary:*\n• Calories: {{calories}} kcal\n• Protein: {{protein}}g\n• Carbs: {{carbs}}g\n• Fat: {{fat}}g\n\n💡 *Tips:* {{tips}}"
+        }
+    },
+    
+    "errors": {
+        "general": "❌ An error occurred. Please try again or use /start to restart.",
+        "profile_required": "📋 Please complete your profile first using /start",
+        "subscription_required": "🔒 This feature requires an active subscription.",
+        "image_processing": "❌ Failed to process image. Please try again with a clearer photo."
+    }
+}

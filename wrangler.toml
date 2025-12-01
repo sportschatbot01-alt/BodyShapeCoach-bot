@@ -1,0 +1,36 @@
+name = "bodyshapecoach-bot"
+main = "src/worker.js"
+compatibility_date = "2023-12-01"
+compatibility_flags = ["nodejs_compat"]
+
+[vars]
+NODE_ENV = "production"
+BOT_NAME = "BodyShapeCoach"
+DEFAULT_LANGUAGE = "en"
+TIMEZONE = "UTC"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "bodyshapecoach-db"
+database_id = "YOUR_DATABASE_ID_HERE"
+
+[[kv_namespaces]]
+binding = "KV_CACHE"
+id = "YOUR_KV_NAMESPACE_ID_HERE"
+preview_id = "YOUR_PREVIEW_KV_ID_HERE"
+
+[[kv_namespaces]]
+binding = "KV_SESSIONS"
+id = "YOUR_SESSIONS_KV_ID_HERE"
+
+[triggers]
+crons = [
+    "0 9 * * *",    # Morning notifications (9 AM)
+    "0 12 * * *",   # Lunch reminders (12 PM)
+    "0 18 * * *",   # Dinner reminders (6 PM)
+    "0 21 * * *",   # Evening check-in (9 PM)
+    "0 0 1 * *"     # Monthly subscription checks
+]
+
+[observability]
+enabled = true
