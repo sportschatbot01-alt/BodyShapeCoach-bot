@@ -9,8 +9,8 @@
     "dev": "wrangler dev"
   },
   "dependencies": {
-    "grammy": "^1.23.0",
-    "i18next": "^23.10.1"
+    "grammy": "^1.38.4",
+    "i18next": "^23.16.8"
   },
   "devDependencies": {
     "wrangler": "^4.53.0"
