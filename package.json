@@ -1,0 +1,21 @@
+{
+  "name": "body-shape-coach-bot",
+  "version": "1.0.0",
+  "description": "Telegram bot for fitness coaching using OpenAI",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "deploy": "wrangler deploy",
+    "dev": "wrangler dev"
+  },
+  "dependencies": {
+    "grammy": "^1.23.0",
+    "i18next": "^23.10.1"
+  },
+  "devDependencies": {
+    "wrangler": "^4.53.0"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

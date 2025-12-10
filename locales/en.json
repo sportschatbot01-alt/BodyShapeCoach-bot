@@ -1,0 +1,7 @@
+{
+  "welcome": "🏋️‍♂️ Welcome to Body Shape Coach! I'm here to help you with fitness advice, workout plans, and nutrition tips. How can I assist you today?",
+  "help": "🤖 *Available Commands:*\n\n/start - Start the bot\n/help - Show this help message\n/workout - Get a personalized workout plan\n/nutrition - Get nutrition advice\n/progress - Track your fitness progress\n/chat - Chat with AI fitness coach\n\nJust send me a message and I'll help you with your fitness journey!",
+  "processing": "⏳ Processing your request...",
+  "error": "❌ Sorry, I encountered an error. Please try again later.",
+  "thanks": "🙏 Thank you for using Body Shape Coach!"
+}
