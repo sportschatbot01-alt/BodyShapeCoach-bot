@@ -10,5 +10,5 @@ OPENAI_API_KEY = "YOUR_OPENAI_KEY_HERE"
 enabled = false
 
 kv_namespaces = [
-  { binding = "BOT_STATE", id = "BodyShapeCoach-bot-worker" }
+  { binding = "BodyShapeCoach-bot-worker", id = "5f968b0074ee47948f40063ec8cbeeda" }
 ]
