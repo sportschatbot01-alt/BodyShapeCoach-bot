@@ -6,9 +6,6 @@ compatibility_date = "2024-12-01"
 TELEGRAM_BOT_TOKEN = "YOUR_TELEGRAM_TOKEN_HERE"
 OPENAI_API_KEY = "YOUR_OPENAI_KEY_HERE"
 
-[observability]
-enabled = false
-
 kv_namespaces = [
   { binding = "BodyShapeCoach-bot-worker", id = "5f968b0074ee47948f40063ec8cbeeda" }
 ]
