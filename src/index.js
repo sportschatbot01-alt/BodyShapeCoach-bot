@@ -9,7 +9,7 @@ i18next.init({
     en: {
       translation: {
         welcome: "🏋️‍♂️ Welcome to Body Shape Coach! I'm here to help you with fitness advice, workout plans, and nutrition tips. How can I assist you today?",
-        help: "🤖 *Available Commands:*\n\n/start - Start the bot\n/help - Show this help message\n/workout - Get a personalized workout plan\n/nutrition - Get nutrition advice\n/progress - Track your fitness progress\n/chat - Chat with AI fitness coach\n\nJust send me a message and I'll help you with your fitness journey!",
+        help: "🤖 *Available Commands:*\n\n/start - Start the bot\n/help - Show this help message\n/workout - Get a personalized workout plan\n/nutrition - Get nutrition advice\n/chat - Chat with AI fitness coach\n\nJust send me a message and I'll help you with your fitness journey!",
         processing: "⏳ Processing your request...",
         error: "❌ Sorry, I encountered an error. Please try again later.",
         thanks: "🙏 Thank you for using Body Shape Coach!"
@@ -22,9 +22,9 @@ export default {
   async fetch(request, env, ctx) {
     try {
       // Create bot instance
-      const bot = new Bot(env.TELEGRAM_BOT_TOKEN || "");
+      const bot = new Bot(env.TELEGRAM_BOT_TOKEN);
       
-      // Helper function to call OpenAI API
+      // Helper function to call OpenAI API - MANUAL REST API (no SDK)
       const callOpenAI = async (prompt) => {
         try {
           const response = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -64,6 +64,7 @@ export default {
 
       // Command handlers
       bot.command("start", async (ctx) => {
+        // Use Cloudflare's built-in crypto for UUID
         const userId = crypto.randomUUID();
         console.log(`New user started: ${userId}`);
         await ctx.reply(i18next.t('welcome'));
@@ -77,7 +78,7 @@ export default {
         await ctx.reply(i18next.t('processing'));
         
         const userInput = ctx.message?.text?.replace('/workout', '').trim() || 'general fitness';
-        const prompt = `Generate a personalized workout plan for fitness. Include warm-up, main exercises, and cool-down. Focus on: ${userInput}`;
+        const prompt = `Generate a personalized workout plan. Include warm-up, main exercises, and cool-down. Focus on: ${userInput}`;
         
         const workoutPlan = await callOpenAI(prompt);
         await ctx.reply(workoutPlan);
@@ -87,7 +88,7 @@ export default {
         await ctx.reply(i18next.t('processing'));
         
         const userInput = ctx.message?.text?.replace('/nutrition', '').trim() || 'balanced nutrition';
-        const prompt = `Provide nutrition advice for fitness. Include meal suggestions, macronutrient guidance, and hydration tips. Focus on: ${userInput}`;
+        const prompt = `Provide nutrition advice. Include meal suggestions and hydration tips. Focus on: ${userInput}`;
         
         const nutritionAdvice = await callOpenAI(prompt);
         await ctx.reply(nutritionAdvice);
@@ -98,7 +99,7 @@ export default {
         
         const userMessage = ctx.message?.text?.replace('/chat', '').trim();
         if (!userMessage) {
-          await ctx.reply("Please tell me what you'd like to chat about regarding fitness, workouts, or nutrition!");
+          await ctx.reply("What would you like to discuss about fitness, workouts, or nutrition?");
           return;
         }
         
@@ -109,8 +110,6 @@ export default {
       // Handle all other messages
       bot.on("message", async (ctx) => {
         const messageText = ctx.message.text;
-        
-        // Skip commands
         if (messageText.startsWith('/')) return;
         
         await ctx.reply(i18next.t('processing'));
@@ -123,7 +122,7 @@ export default {
         console.error("Bot error:", err);
       });
 
-      // Handle the request using webhook
+      // Handle webhook
       return await webhookCallback(bot, "cloudflare-mod")(request);
       
     } catch (error) {
