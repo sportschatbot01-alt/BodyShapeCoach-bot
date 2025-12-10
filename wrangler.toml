@@ -1,0 +1,7 @@
+name = "bodyshapecoach"
+main = "src/index.js"
+compatibility_date = "2024-12-01"
+
+[vars]
+TELEGRAM_BOT_TOKEN = "YOUR_TELEGRAM_TOKEN_HERE"
+OPENAI_API_KEY = "YOUR_OPENAI_KEY_HERE"
