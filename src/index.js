@@ -380,3 +380,28 @@ export default {
                     case CONVERSATION_STATE.ASKING_AGE:
                         const age = parseInt(messageText);
                         if (isNaN(age) || age < 10 || age >
+
+
+                    export default {
+                                async fetch(request, env, ctx) {
+                                    try {
+                                        // Only handle POST requests from Telegram
+                                        if (request.method !== "POST") {
+                                            return new Response("Telegram bot is running!", { status: 200 });
+                                        }
+
+                                        // Your bot code
+                                        const bot = new Bot(env.TELEGRAM_BOT_TOKEN);
+
+                                        // Existing bot setup and webhook handling
+                                        return await webhookCallback(bot, "cloudflare-mod")(request);
+
+                                    } catch (error) {
+                                        console.error("Worker error:", error);
+                                        return new Response(JSON.stringify({ error: "❌ Sorry, I encountered an error. Please try again later." }), {
+                                            status: 200, // Telegram still requires 200
+                                            headers: { "Content-Type": "application/json" }
+                                        });
+                                    }
+                                }
+                            };
