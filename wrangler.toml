@@ -9,3 +9,7 @@ OPENAI_API_KEY = "YOUR_OPENAI_KEY_HERE"
 kv_namespaces = [
   { binding = "BodyShapeCoach-bot-worker", id = "5f968b0074ee47948f40063ec8cbeeda" }
 ]
+[workflows]
+name = "telegram-bot-workflow"
+binding = "MY_WORKFLOW"
+class_name = "TelegramBotWorkflow"
