@@ -26,37 +26,126 @@ const CONVERSATION_STATE = {
     START: 'start',
     ASKING_NAME: 'asking_name',
     ASKING_AGE: 'asking_age',
+    ASKING_GENDER: 'asking_gender',
     ASKING_WEIGHT: 'asking_weight',
     ASKING_HEIGHT: 'asking_height',
     ASKING_GOALS: 'asking_goals',
-    READY: 'ready'
+    ASKING_ACTIVITY_LEVEL: 'asking_activity_level',
+    ASKING_DIETARY_PREFS: 'asking_dietary_prefs',
+    READY: 'ready',
+    IN_CHAT: 'in_chat'
 };
 
-// Questions for profile setup
-const QUESTIONS = {
-    name: "What's your name?",
-    age: "How old are you? (e.g., 25)",
-    weight: "What's your current weight in kg? (e.g., 75)",
-    height: "What's your height in cm? (e.g., 175)",
-    goals: `What are your fitness goals? Choose or describe:
-• 🏃 Weight loss
-• 💪 Muscle gain
-• 🔥 Toning & definition
-• 🏋️‍♂️ Strength building
-• 🧘‍♂️ General fitness
-• 📈 Endurance improvement`
-};
-
-// Local response database
+// LOCAL RESPONSE DATABASE
 const LOCAL_RESPONSES = {
-    quickResponses: {
-        'hello': "Hello! How can I assist you with your fitness journey today?",
-        'hi': "Hi there! Ready to work on your fitness goals?",
-        'hey': "Hey! How's your fitness journey going?",
-        'thanks': i18next.t('thanks'),
-        'thank you': i18next.t('thanks'),
-        'thank': i18next.t('thanks'),
-        'how are you': "I'm great! Ready to help you achieve your fitness goals! 💪"
+    workoutPlans: {
+        'weight loss': `🔥 *Weight Loss Workout Plan* (3-4 times/week):
+🏃‍♀️ *Cardio Focus:*
+• 30 mins brisk walking/jogging
+• 20 mins HIIT (30s sprint, 30s rest)
+• 15 mins jump rope intervals
+💪 *Strength Training:*
+• Bodyweight squats: 3x15 reps
+• Push-ups (or knee push-ups): 3x12 reps
+• Plank: 3x45 seconds
+• Lunges: 3x12 each leg
+• Mountain climbers: 3x30 seconds
+📅 *Weekly Schedule:*
+Mon: Full body strength
+Tue: Cardio HIIT
+Wed: Active recovery (walking)
+Thu: Full body strength
+Fri: Cardio steady state
+Sat: Rest
+Sun: Light stretching
+💡 *Tips:* Stay consistent, track calories, drink 3L water daily!`,
+        'muscle gain': `💪 *Muscle Gain Workout Plan* (4-5 times/week):
+🏋️‍♂️ *Strength Focus:*
+• Squats: 4x8-10 reps (heavy)
+• Bench press: 4x8-10 reps
+• Deadlifts: 3x6-8 reps
+• Shoulder press: 3x10 reps
+• Pull-ups/Lat pulldowns: 4x8-10 reps
+• Bicep curls: 3x12 reps
+• Tricep extensions: 3x12 reps
+📅 *Weekly Schedule:*
+Mon: Chest & Triceps
+Tue: Back & Biceps
+Wed: Legs & Shoulders
+Thu: Rest
+Fri: Upper body
+Sat: Lower body
+Sun: Rest
+🍗 *Nutrition:* Eat 300-500 calorie surplus, 2g protein per kg body weight!`,
+        'toning & definition': `🔥 *Toning & Definition Plan* (5-6 times/week):
+🎯 *Circuit Training:*
+• Circuit 1 (repeat 3x):
+  - Dumbbell thrusters: 12 reps
+  - Renegade rows: 10 each side
+  - Russian twists: 20 reps
+  - Glute bridges: 15 reps
+• Circuit 2 (repeat 3x):
+  - Burpees: 10 reps
+  - Plank to push-up: 12 reps
+  - Side planks: 30s each side
+  - Jumping lunges: 20 reps
+📅 *Weekly Schedule:* Alternate circuits daily with 1 rest day
+💦 *Key:* High reps (12-15), moderate weight, minimal rest between sets!`,
+        'general fitness': `🌟 *General Fitness Plan* (3-4 times/week):
+🏃‍♂️ *Balanced Routine:*
+• Warm-up: 10 mins dynamic stretching
+• Strength: Choose 5-6 exercises (squats, push-ups, rows, planks)
+• Cardio: 20-30 mins (choice of running, cycling, swimming)
+• Cool-down: 10 mins static stretching
+📊 *Progressive Overload:*
+Week 1: Learn form, light weights
+Week 2: Increase 10% weight
+Week 3: Add 1 extra set
+Week 4: Active recovery week
+🎯 *Focus:* Consistency over intensity! Start with what you can maintain.`
+    },
+    nutritionPlans: {
+        'weight loss': `🥗 *Weight Loss Nutrition Plan*
+📊 *Daily Targets:*
+• Calories: Maintain 300-500 deficit
+• Protein: 1.6-2g per kg body weight
+• Carbs: 2-3g per kg body weight
+• Fats: 0.8-1g per kg body weight
+🍽️ *Sample Day:*
+• Breakfast: Greek yogurt + berries + almonds
+• Lunch: Grilled chicken + quinoa + mixed veggies
+• Snack: Apple + peanut butter
+• Dinner: Baked salmon + sweet potato + broccoli
+• Hydration: 3-4L water
+🚫 *Avoid:* Sugary drinks, processed snacks, fried foods`,
+        'muscle gain': `🍗 *Muscle Gain Nutrition Plan*
+📊 *Daily Targets:*
+• Calories: 300-500 surplus
+• Protein: 2-2.5g per kg body weight
+• Carbs: 4-6g per kg body weight
+• Fats: 0.8-1g per kg body weight
+🍽️ *Sample Day:*
+• Meal 1: 4 eggs + oatmeal + fruit
+• Meal 2: Chicken breast + rice + greens
+• Meal 3: Protein shake + banana
+• Meal 4: Beef + potatoes + mixed veggies
+• Meal 5: Cottage cheese + nuts
+• Meal 6: Casein protein before bed
+⚡ *Timing:* Eat every 3-4 hours, protein with every meal`,
+        'general health': `🥦 *General Health Nutrition Plan*
+🎯 *Principles:*
+• Eat whole, unprocessed foods
+• Include colorful vegetables (5+ servings)
+• Choose lean proteins
+• Healthy fats (avocado, nuts, olive oil)
+• Complex carbs (oats, quinoa, sweet potato)
+🍽️ *Plate Method:*
+• ½ plate vegetables
+• ¼ plate protein
+• ¼ plate complex carbs
+• Add healthy fats
+💧 *Hydration:* 8-10 glasses water daily
+⏰ *Timing:* Listen to hunger cues, avoid late night eating`
     },
     tips: [
         "💧 Drink water first thing in the morning to kickstart metabolism!",
@@ -70,20 +159,30 @@ const LOCAL_RESPONSES = {
         "💪 Progressive overload - gradually increase weight or reps!",
         "🏃‍♂️ Consistency beats intensity - regular workouts > occasional extremes!"
     ],
-    workoutPlans: {
-        'weight loss': `🔥 *Weight Loss Workout Plan* ...`,
-        'muscle gain': `💪 *Muscle Gain Workout Plan* ...`,
-        'toning & definition': `🔥 *Toning & Definition Plan* ...`,
-        'general fitness': `🌟 *General Fitness Plan* ...`
-    },
-    nutritionPlans: {
-        'weight loss': `🥗 *Weight Loss Nutrition Plan* ...`,
-        'muscle gain': `🍗 *Muscle Gain Nutrition Plan* ...`,
-        'general health': `🥦 *General Health Nutrition Plan* ...`
+    quickResponses: {
+        'hello': "Hello! How can I assist you with your fitness journey today?",
+        'hi': "Hi there! Ready to work on your fitness goals?",
+        'hey': "Hey! How's your fitness journey going?",
+        'thanks': i18next.t('thanks'),
+        'thank you': i18next.t('thanks'),
+        'thank': i18next.t('thanks'),
+        'how are you': "I'm great! Ready to help you achieve your fitness goals! 💪"
     }
 };
 
-// Helper functions
+// Questions flow
+const QUESTIONS = {
+    name: "What's your name?",
+    age: "How old are you? (e.g., 25)",
+    gender: "What's your gender? (Male/Female/Other)",
+    weight: "What's your current weight in kg? (e.g., 75)",
+    height: "What's your height in cm? (e.g., 175)",
+    goals: "What are your fitness goals? (Weight loss, Muscle gain, Toning, Strength, General fitness, Endurance)",
+    activityLevel: "What's your activity level? (Sedentary, Light, Moderate, Active, Very Active)",
+    dietaryPrefs: "Do you have any dietary preferences or restrictions? (Vegetarian, Vegan, Keto, Allergies, etc.)"
+};
+
+// Helpers
 const getLocalWorkoutPlan = (goal) => {
     const g = goal.toLowerCase();
     if (g.includes('loss')) return LOCAL_RESPONSES.workoutPlans['weight loss'];
@@ -100,97 +199,152 @@ const getLocalNutritionPlan = (goal) => {
 };
 
 const generateWeeklyPlan = (userData) => {
-    return `📅 *Weekly Fitness Plan for ${userData.name}*\n...`; // simplified for brevity
+    return `📅 *Weekly Fitness Plan for ${userData.name}*
+🎯 *Based on your goal: ${userData.goals}*
+
+Mon: Strength & Cardio
+Tue: HIIT / Core
+Wed: Active recovery / Stretching
+Thu: Upper body strength
+Fri: Cardio + Core
+Sat: Fun activity (swimming, hiking)
+Sun: Rest & plan next week
+
+💡 Tips: Adjust based on energy levels, stay hydrated, sleep well!`;
 };
 
 const getProfileSummary = (userData) => {
     const bmi = (userData.weight / ((userData.height / 100) ** 2)).toFixed(1);
     const dailyCalories = Math.round(userData.weight * 30);
     const proteinTarget = Math.round(userData.weight * 1.6);
+
     let bmiCategory = "Healthy";
     if (bmi < 18.5) bmiCategory = "Underweight";
-    else if (bmi >= 25) bmiCategory = "Overweight";
+    else if (bmi >= 25 && bmi < 30) bmiCategory = "Overweight";
     else if (bmi >= 30) bmiCategory = "Obese";
-    return `📋 *Your Profile Summary:*\n👤 Name: ${userData.name}\nAge: ${userData.age}\nHeight: ${userData.height}cm\nWeight: ${userData.weight}kg\nBMI: ${bmi} (${bmiCategory})\n🎯 Goals: ${userData.goals}\n📊 Calories: ~${dailyCalories} kcal\nProtein: ${proteinTarget}g daily`;
+
+    return `📋 *Your Profile Summary:*
+👤 Name: ${userData.name}
+• Age: ${userData.age}
+• Gender: ${userData.gender}
+• Height: ${userData.height} cm
+• Weight: ${userData.weight} kg
+• BMI: ${bmi} (${bmiCategory})
+🎯 Goals: ${userData.goals}
+📊 Daily: ~${dailyCalories} kcal, Protein: ${proteinTarget}g
+• Water: 3-4 L
+• Sleep: 7-9 hrs
+💪 Ready to achieve your goals! Use /workout or /nutrition to begin!`;
 };
 
+// Main Worker
 export default {
     async fetch(request, env, ctx) {
         try {
-            if (request.method !== "POST") {
-                return new Response("Bot is running!", { status: 200 });
-            }
-
             const bot = new Bot(env.TELEGRAM_BOT_TOKEN);
 
-            // Clean old user states
+            // Cleanup old states
             const cleanupOldStates = () => {
                 const now = Date.now();
                 const oneDayAgo = now - (24 * 60 * 60 * 1000);
-                for (const [uid, data] of userStates.entries()) {
-                    if (data.timestamp < oneDayAgo) userStates.delete(uid);
+                for (const [userId, data] of userStates.entries()) {
+                    if (data.timestamp && data.timestamp < oneDayAgo) userStates.delete(userId);
                 }
             };
             cleanupOldStates();
 
-            // Start command
+            // START command
             bot.command("start", async (ctx) => {
-                const uid = ctx.from.id;
-                userStates.set(uid, { state: CONVERSATION_STATE.ASKING_NAME, data: {}, timestamp: Date.now() });
+                const userId = ctx.from.id;
+                userStates.set(userId, { state: CONVERSATION_STATE.ASKING_NAME, data: {}, timestamp: Date.now() });
                 await ctx.reply(i18next.t('welcome'), { parse_mode: "Markdown" });
                 await ctx.reply(QUESTIONS.name);
             });
 
-            // Profile command
+            // PROFILE command
             bot.command("profile", async (ctx) => {
-                const uid = ctx.from.id;
-                const userData = userStates.get(uid)?.data;
-                if (!userData?.name) {
-                    await ctx.reply("Profile not set. Use /start to begin!");
-                    return;
-                }
-                await ctx.reply(getProfileSummary(userData), { parse_mode: "Markdown" });
+                const userId = ctx.from.id;
+                const userData = userStates.get(userId)?.data;
+                if (userData && userData.name) await ctx.reply(getProfileSummary(userData), { parse_mode: "Markdown" });
+                else await ctx.reply("You haven't set up your profile yet. Use /start!");
             });
 
-            // Workout
+            // UPDATE command
+            bot.command("update", async (ctx) => {
+                const userId = ctx.from.id;
+                userStates.set(userId, { state: CONVERSATION_STATE.ASKING_NAME, data: {}, timestamp: Date.now() });
+                await ctx.reply("Let's update your profile! " + QUESTIONS.name);
+            });
+
+            // HELP command
+            bot.command("help", async (ctx) => {
+                await ctx.reply(i18next.t('help'), { parse_mode: "Markdown" });
+            });
+
+            // WORKOUT command
             bot.command("workout", async (ctx) => {
-                const uid = ctx.from.id;
-                const userData = userStates.get(uid)?.data;
-                if (!userData?.name) { await ctx.reply("Set profile first with /start"); return; }
+                const userData = userStates.get(ctx.from.id)?.data;
+                if (!userData?.name) return ctx.reply("Please set up your profile first with /start!");
+                await ctx.reply(i18next.t('processing'));
                 await ctx.reply(getLocalWorkoutPlan(userData.goals), { parse_mode: "Markdown" });
             });
 
-            // Nutrition
+            // NUTRITION command
             bot.command("nutrition", async (ctx) => {
-                const uid = ctx.from.id;
-                const userData = userStates.get(uid)?.data;
-                if (!userData?.name) { await ctx.reply("Set profile first with /start"); return; }
+                const userData = userStates.get(ctx.from.id)?.data;
+                if (!userData?.name) return ctx.reply("Please set up your profile first with /start!");
+                await ctx.reply(i18next.t('processing'));
                 await ctx.reply(getLocalNutritionPlan(userData.goals), { parse_mode: "Markdown" });
             });
 
-            // Plan
+            // PLAN command
             bot.command("plan", async (ctx) => {
-                const uid = ctx.from.id;
-                const userData = userStates.get(uid)?.data;
-                if (!userData?.name) { await ctx.reply("Set profile first with /start"); return; }
+                const userData = userStates.get(ctx.from.id)?.data;
+                if (!userData?.name) return ctx.reply("Please set up your profile first with /start!");
+                await ctx.reply(i18next.t('processing'));
                 await ctx.reply(generateWeeklyPlan(userData), { parse_mode: "Markdown" });
             });
 
-            // Tip
+            // TIP command
             bot.command("tip", async (ctx) => {
-                const tip = LOCAL_RESPONSES.tips[Math.floor(Math.random() * LOCAL_RESPONSES.tips.length)];
-                await ctx.reply(tip);
+                const randomTip = LOCAL_RESPONSES.tips[Math.floor(Math.random() * LOCAL_RESPONSES.tips.length)];
+                await ctx.reply(randomTip);
             });
 
-            // Chat fallback
+            // CHAT command
             bot.command("chat", async (ctx) => {
-                const uid = ctx.from.id;
-                const userData = userStates.get(uid)?.data;
-                if (!userData?.name) { await ctx.reply("Set profile first with /start"); return; }
-                const msg = ctx.message.text?.replace("/chat", "").trim();
-                if (!msg) { await ctx.reply("What would you like to discuss?"); return; }
+                const userData = userStates.get(ctx.from.id)?.data;
+                if (!userData?.name) return ctx.reply("Please set up your profile first with /start!");
+                const userMessage = ctx.message?.text?.replace('/chat', '').trim();
+                if (!userMessage) return ctx.reply("What would you like to discuss about fitness, workouts, or nutrition?");
+                await ctx.reply(i18next.t('processing'));
 
-                // Fallback responses
+                // OpenAI integration
+                if (env.OPENAI_API_KEY) {
+                    try {
+                        const response = await fetch('https://api.openai.com/v1/chat/completions', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${env.OPENAI_API_KEY}`
+                            },
+                            body: JSON.stringify({
+                                model: "gpt-3.5-turbo",
+                                messages: [
+                                    { role: "system", content: `You are a fitness coach for ${userData.name} (${userData.age}y, ${userData.height}cm, ${userData.weight}kg) with goal: ${userData.goals}.` },
+                                    { role: "user", content: userMessage }
+                                ],
+                                max_tokens: 400
+                            })
+                        });
+                        if (response.ok) {
+                            const data = await response.json();
+                            return ctx.reply(data.choices[0]?.message?.content || "Got it! Keep up the good work! 💪");
+                        }
+                    } catch { }
+                }
+
+                // Fallback response
                 const fallbackResponses = [
                     `For your goal "${userData.goals}", consistency is key! Focus on workouts and balanced nutrition. 💪`,
                     `Remember: progress takes time! Celebrate small victories. 🎉`,
@@ -201,82 +355,28 @@ export default {
 
             // Main message handler
             bot.on("message", async (ctx) => {
-                const uid = ctx.from.id;
-                const text = ctx.message.text?.trim();
-                if (!text || text.startsWith("/")) return;
+                const userId = ctx.from.id;
+                const messageText = ctx.message.text?.trim();
+                if (!messageText || messageText.startsWith('/')) return;
 
-                let state = userStates.get(uid);
-                if (!state) {
-                    userStates.set(uid, { state: CONVERSATION_STATE.ASKING_NAME, data: {}, timestamp: Date.now() });
-                    state = userStates.get(uid);
+                let userState = userStates.get(userId);
+                if (!userState) {
+                    userStates.set(userId, { state: CONVERSATION_STATE.ASKING_NAME, data: {}, timestamp: Date.now() });
+                    userState = userStates.get(userId);
                 }
-                const data = state.data || {};
-                state.timestamp = Date.now();
+                const userData = userState.data || {};
+                userState.timestamp = Date.now();
 
-                const lower = text.toLowerCase();
-                if (LOCAL_RESPONSES.quickResponses[lower]) { await ctx.reply(LOCAL_RESPONSES.quickResponses[lower]); return; }
+                const lowerText = messageText.toLowerCase();
+                if (LOCAL_RESPONSES.quickResponses[lowerText]) return ctx.reply(LOCAL_RESPONSES.quickResponses[lowerText]);
 
-                switch (state.state) {
+                switch (userState.state) {
                     case CONVERSATION_STATE.ASKING_NAME:
-                        data.name = text;
-                        state.state = CONVERSATION_STATE.ASKING_AGE;
-                        await ctx.reply(`Nice to meet you, ${text}! 👋\n\n${QUESTIONS.age}`);
+                        userData.name = messageText;
+                        userState.state = CONVERSATION_STATE.ASKING_AGE;
+                        await ctx.reply(`Nice to meet you, ${messageText}! 👋\n\n${QUESTIONS.age}`);
                         break;
 
                     case CONVERSATION_STATE.ASKING_AGE:
-                        const age = parseInt(text);
-                        if (isNaN(age) || age < 10 || age > 100) {
-                            await ctx.reply("Enter a valid age (10-100):"); return;
-                        }
-                        data.age = age;
-                        state.state = CONVERSATION_STATE.ASKING_WEIGHT;
-                        await ctx.reply(QUESTIONS.weight);
-                        break;
-
-                    case CONVERSATION_STATE.ASKING_WEIGHT:
-                        const weight = parseFloat(text);
-                        if (isNaN(weight) || weight < 20 || weight > 300) { await ctx.reply("Enter valid weight (20-300 kg):"); return; }
-                        data.weight = weight;
-                        state.state = CONVERSATION_STATE.ASKING_HEIGHT;
-                        await ctx.reply(QUESTIONS.height);
-                        break;
-
-                    case CONVERSATION_STATE.ASKING_HEIGHT:
-                        const height = parseInt(text);
-                        if (isNaN(height) || height < 100 || height > 250) { await ctx.reply("Enter valid height (100-250 cm):"); return; }
-                        data.height = height;
-                        state.state = CONVERSATION_STATE.ASKING_GOALS;
-                        await ctx.reply(QUESTIONS.goals);
-                        break;
-
-                    case CONVERSATION_STATE.ASKING_GOALS:
-                        data.goals = text;
-                        state.state = CONVERSATION_STATE.READY;
-                        await ctx.reply(getProfileSummary(data), { parse_mode: "Markdown" });
-                        await ctx.reply(`✅ *Profile Complete!*\nNow you can use /workout, /nutrition, /plan, /tip, or just chat!`, { parse_mode: "Markdown" });
-                        break;
-
-                    case CONVERSATION_STATE.READY:
-                        await ctx.reply(`Use /workout, /nutrition, /plan, /tip, or just ask me anything about your fitness goals! 💪`);
-                        break;
-
-                    default:
-                        await ctx.reply(i18next.t('welcome'), { parse_mode: "Markdown" });
-                }
-
-                userStates.set(uid, state);
-            });
-
-            bot.catch((err) => console.error("Bot error:", err));
-
-            return await webhookCallback(bot, "cloudflare-mod")(request);
-
-        } catch (error) {
-            console.error("Worker error:", error);
-            return new Response(JSON.stringify({ error: i18next.t('error') }), {
-                status: 200,
-                headers: { "Content-Type": "application/json" }
-            });
-        }
-    }
-};
+                        const age = parseInt(messageText);
+                        if (isNaN(age) || age < 10 || age >
